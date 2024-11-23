@@ -30,6 +30,7 @@ export const fetchPostsData = async () => {
   //   redirect(`/Posts/${data[0].id}`);
   // }
   return data;
+  
 };
 
 const PostsPage = async () => {
