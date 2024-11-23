@@ -1,7 +1,8 @@
-import { fetchPostsData } from "@/Services/getPostAPI";
+// import { fetchPostsData } from "@/Services/getPostAPI";
 import Link from "next/link";
 import React from "react";
 import { Lora } from "next/font/google";
+import { redirect } from "next/navigation";
 
 const lora = Lora({
   weight: ["400", "500", "600", "700"],
@@ -11,6 +12,15 @@ const lora = Lora({
 export const metadata = {
   title: "Posts",
   description: "A Super Power full NextJS Website - Posts Page  ",
+};
+
+export const fetchPostsData = async () => {
+  const res = await fetch("https://jsonplaceholder.typicode.com/posts");
+  const data = await res.json();
+  if (data) {
+    redirect(`/Posts/${data[0].id}`);
+  }
+  return data;
 };
 
 const PostsPage = async () => {

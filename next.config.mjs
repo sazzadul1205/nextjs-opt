@@ -8,6 +8,15 @@ const nextConfig = {
       },
     ],
   },
+  async redirects() {
+    return [
+      {
+        source: "/About",
+        destination: "/Time",
+        permanent: true,
+      },
+    ];
+  },
 };
 
 export default nextConfig;
