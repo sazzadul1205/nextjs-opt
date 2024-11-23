@@ -14,12 +14,21 @@ export const metadata = {
   description: "A Super Power full NextJS Website - Posts Page  ",
 };
 
+// export const fetchPostsData = async () => {
+//   const res = await fetch("https://jsonplaceholder.typicode.com/posts");
+//   const data = await res.json();
+//   if (data) {
+//     redirect(`/Posts/${data[0].id}`);
+//   }
+//   return data;
+// };
+
 export const fetchPostsData = async () => {
-  const res = await fetch("https://jsonplaceholder.typicode.com/posts");
+  const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/posts`);
   const data = await res.json();
-  if (data) {
-    redirect(`/Posts/${data[0].id}`);
-  }
+  // if (data) {
+  //   redirect(`/Posts/${data[0].id}`);
+  // }
   return data;
 };
 
