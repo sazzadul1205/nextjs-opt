@@ -2,11 +2,13 @@
 
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
-import React from "react";
+import React, { useState } from "react";
 
 const Navbar = () => {
   const pathName = usePathname();
   const router = useRouter();
+
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   const links = [
     { title: "Home", path: "/" },
@@ -23,15 +25,19 @@ const Navbar = () => {
   const handleNavigation = () => router.push("/Login");
 
   return (
-    <div className={`navbar ${isAdminPath ? "bg-blue-500" : "bg-red-500"}`}>
-      <div className="navbar max-w-[1200px] mx-auto items-center h-12 flex justify-between">
+    <div className={`w-full py-3 ${isAdminPath ? "bg-blue-500" : "bg-red-500"} `}>
+      <div className="max-w-[1200px] mx-auto flex items-center justify-between h-12 px-4">
         {/* Start */}
         <div className="flex items-center space-x-4">
-          <div className="dropdown lg:hidden">
-            <div tabIndex={0} role="button" className="btn btn-ghost">
+          {/* Hamburger Menu */}
+          <div className="lg:hidden">
+            <button
+              onClick={() => setIsMenuOpen(!isMenuOpen)}
+              className="p-2 focus:outline-none"
+            >
               <svg
                 xmlns="http://www.w3.org/2000/svg"
-                className="h-5 w-5"
+                className="h-5 w-5 text-white"
                 fill="none"
                 viewBox="0 0 24 24"
                 stroke="currentColor"
@@ -43,32 +49,39 @@ const Navbar = () => {
                   d="M4 6h16M4 12h8m-8 6h16"
                 />
               </svg>
-            </div>
-            <ul
-              tabIndex={0}
-              className="menu menu-sm dropdown-content bg-base-100 rounded-box z-[1] mt-3 w-52 p-2 shadow"
-            >
-              {currentLinks.map((link) => (
-                <li key={link.title}>
-                  <Link href={link.path}>{link.title}</Link>
-                </li>
-              ))}
-            </ul>
+            </button>
+            {isMenuOpen && (
+              <ul className="absolute left-0 top-12 bg-white shadow-lg w-52 rounded-md py-2">
+                {currentLinks.map((link) => (
+                  <li key={link.title} className="border-b last:border-none">
+                    <Link
+                      href={link.path}
+                      className="block px-4 py-2 hover:bg-gray-200"
+                      onClick={() => setIsMenuOpen(false)}
+                    >
+                      {link.title}
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+            )}
           </div>
-          <Link className="font-bold text-xl" href="/">
+          <Link className="font-bold text-xl text-white" href="/">
             Next Hero
           </Link>
         </div>
 
         {/* Center */}
-        <div className="hidden lg:flex space-x-5 font-bold px-1 text-[16px]">
+        <div className="hidden lg:flex space-x-5 font-bold text-white">
           {currentLinks.map((link) => (
             <Link
               key={link.title}
               href={link.path}
-              className={
-                pathName === link.path ? "text-red-400" : "hover:text-red-400"
-              }
+              className={`px-2 py-1 ${
+                pathName === link.path
+                  ? "text-red-400 border-b-2 border-red-400"
+                  : "hover:text-red-400"
+              }`}
             >
               {link.title}
             </Link>
@@ -78,7 +91,7 @@ const Navbar = () => {
         {/* End */}
         <button
           onClick={handleNavigation}
-          className="px-7 py-3 bg-blue-500 hover:bg-blue-400 font-bold text-black"
+          className="px-4 py-2 bg-blue-600 hover:bg-blue-500 font-bold text-white rounded"
         >
           Button
         </button>
